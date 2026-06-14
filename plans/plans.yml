@@ -1,0 +1,28 @@
+plans:
+  - name: Public API
+    description: >-
+      The Morpho GraphQL API is publicly accessible without authentication or
+      an API key. No paid tiers or registration are required to query market data,
+      vault metrics, user positions, liquidations, rewards, or historical analytics.
+      The API is provided as-is without a Service Level Agreement (SLA).
+    url: https://docs.morpho.org/tools/offchain/api/get-started/
+    price: Free
+    authentication: None
+    rateLimits:
+      - requests: 5000
+        period: 5 minutes
+        notes: >-
+          Hard cap of 5,000 requests per 5-minute window. Individual query
+          complexity is also capped at a maximum score of 1,000,000 per query.
+          The numberOfResults parameter is capped at [0, 1000] with a default of 5.
+    features:
+      - Full GraphQL access to Morpho Markets data
+      - Full GraphQL access to Morpho Vaults data
+      - User position queries by address
+      - Historical time-series data (last 30 days default)
+      - Liquidation event queries
+      - Rewards and campaign data
+      - Public Allocator liquidity data
+      - Multi-chain support (Ethereum, Base, Arbitrum, and more)
+    sla: None — provided as-is
+    support: https://help.morpho.org/

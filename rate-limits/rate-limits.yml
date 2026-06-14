@@ -1,0 +1,41 @@
+rateLimits:
+  - name: Request Rate Limit
+    description: >-
+      The Morpho GraphQL API enforces a rate limit of 5,000 requests per 5-minute
+      window (approximately 1,000 requests per minute). This applies to all callers
+      regardless of IP or identity since no authentication is required.
+    limit: 5000
+    period: 5 minutes
+    scope: Per caller / IP
+    source: https://docs.morpho.org/tools/offchain/api/get-started/
+
+  - name: Query Complexity Limit
+    description: >-
+      Each GraphQL query is assigned a complexity score based on the number of
+      fields requested and their multipliers. The maximum allowed complexity per
+      query is 1,000,000. Base cost per operation is 10. Individual fields carry
+      variable costs and multipliers. Complexity scores are returned in the
+      GraphQL response extensions so callers can monitor usage.
+    limit: 1000000
+    period: Per query
+    scope: Per query execution
+    source: https://docs.morpho.org/tools/offchain/api/get-started/
+
+  - name: Results Pagination Limit
+    description: >-
+      The numberOfResults (first) parameter is bounded between 0 and 1,000 with
+      a default of 5 results per query. Callers must paginate using skip/first
+      to retrieve large datasets.
+    limit: 1000
+    period: Per query
+    scope: Per query
+    defaultValue: 5
+    source: https://docs.morpho.org/tools/offchain/api/get-started/
+
+  - name: Historical Data Default Window
+    description: >-
+      Historical state queries return the last 30 days of data by default when
+      no startTimestamp or endTimestamp is specified.
+    defaultWindow: 30 days
+    scope: Per historicalState query
+    source: https://docs.morpho.org/tools/offchain/api/get-started/

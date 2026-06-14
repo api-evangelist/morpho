@@ -1,0 +1,26 @@
+finops:
+  pricing: Free
+  model: Open / No-cost public API
+  description: >-
+    The Morpho GraphQL API is provided free of charge with no authentication,
+    API key, or registration required. There are no paid tiers, usage-based
+    billing, or enterprise plans documented as of June 2026. The API is operated
+    by Morpho Labs and provided as-is without a Service Level Agreement (SLA),
+    meaning no uptime guarantees or support commitments are formally offered.
+  costs:
+    - category: API Access
+      amount: 0
+      currency: USD
+      notes: Fully public and free; no account or key needed.
+  notes: >-
+    Morpho is a decentralized protocol; the primary economic model involves
+    protocol fees on lending markets accruing to vault curators and the Morpho
+    DAO. There is no monetization of the offchain API itself as of the current
+    date. Developers requiring higher rate limits, SLA guarantees, or dedicated
+    infrastructure should contact Morpho Labs directly via help.morpho.org or
+    Discord (discord.gg/morpho).
+  contacts:
+    - type: Support
+      url: https://help.morpho.org/
+    - type: Discord
+      url: https://discord.gg/morpho
