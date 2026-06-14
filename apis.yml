@@ -2,202 +2,188 @@ aid: morpho
 url: https://raw.githubusercontent.com/api-evangelist/morpho/refs/heads/main/apis.yml
 name: Morpho
 kind: company
-description: >-
-  Morpho is an open DeFi credit network enabling permissionless lending and borrowing
-  of digital assets. The Morpho API provides a GraphQL-based interface to access
-  comprehensive onchain and offchain data from the Morpho ecosystem in real time,
-  covering Morpho Markets, Morpho Vaults, user positions, collateral, liquidations,
-  rewards, and historical analytics across Ethereum, Base, Arbitrum, and other
-  supported chains. The API is publicly accessible without authentication and includes
-  a companion TypeScript SDK suite for application integration.
+description: Morpho is an open DeFi credit network enabling permissionless lending
+  and borrowing of digital assets. The Morpho API provides a GraphQL-based interface
+  to access comprehensive onchain and offchain data from the Morpho ecosystem in real
+  time, covering Morpho Markets, Morpho Vaults, user positions, collateral, liquidations,
+  rewards, and historical analytics across Ethereum, Base, Arbitrum, and other supported
+  chains. The API is publicly accessible without authentication and includes a companion
+  TypeScript SDK suite for application integration.
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - DeFi
-  - Lending
-  - Borrowing
-  - Collateral
-  - Liquidations
-  - Rewards
-  - Markets
-  - Vaults
-  - Web3
+- DeFi
+- Lending
+- Borrowing
+- Collateral
+- Liquidations
+- Rewards
+- Markets
+- Vaults
+- Web3
 created: '2026-06-14'
 modified: '2026-06-14'
 specificationVersion: '0.19'
 apis:
-  - aid: morpho:markets-api
-    name: Morpho Markets API
-    description: >-
-      GraphQL queries for Morpho Blue lending markets — retrieve market parameters
-      (loan asset, collateral asset, LLTV, oracle, IRM), real-time state metrics
-      (supply, borrow, collateral assets and USD values, utilization), native and
-      reward APYs, oracle configurations, and risk warnings across all supported
-      chains.
-    humanURL: https://docs.morpho.org/tools/offchain/api/morpho/
-    baseURL: https://api.morpho.org/graphql
-    tags:
-      - Markets
-      - Lending
-      - Borrowing
-      - APY
-      - TVL
-    properties:
-      - type: Documentation
-        url: https://docs.morpho.org/tools/offchain/api/morpho/
-      - type: GraphQL
-        url: https://api.morpho.org/graphql
-
-  - aid: morpho:vaults-api
-    name: Morpho Vaults API
-    description: >-
-      GraphQL queries for Morpho Vaults (MetaMorpho V1 and V2) — discover vault
-      addresses, symbols, and assets; retrieve total deposits, liquidity, share
-      price, and APY metrics; track depositor positions and earnings (PnL, ROE);
-      query allocation queues and adapter breakdowns; and access time-series APY
-      and allocation history.
-    humanURL: https://docs.morpho.org/tools/offchain/api/morpho-vaults/
-    baseURL: https://api.morpho.org/graphql
-    tags:
-      - Vaults
-      - MetaMorpho
-      - APY
-      - Deposits
-      - Allocation
-    properties:
-      - type: Documentation
-        url: https://docs.morpho.org/tools/offchain/api/morpho-vaults/
-      - type: GraphQL
-        url: https://api.morpho.org/graphql
-
-  - aid: morpho:positions-api
-    name: Morpho Positions API
-    description: >-
-      GraphQL queries for individual user positions across Morpho Markets and Vaults
-      — query marketPositions for collateral, borrow assets, supply shares, and USD
-      values by user address; retrieve account overviews via userByAddress covering
-      both market and vault positions; and access vault depositor data including
-      assets, shares, and returns.
-    humanURL: https://docs.morpho.org/tools/offchain/api/morpho/
-    baseURL: https://api.morpho.org/graphql
-    tags:
-      - Positions
-      - Collateral
-      - Supply
-      - Borrow
-      - User
-    properties:
-      - type: Documentation
-        url: https://docs.morpho.org/tools/offchain/api/morpho/
-      - type: GraphQL
-        url: https://api.morpho.org/graphql
-
-  - aid: morpho:liquidations-api
-    name: Morpho Liquidations API
-    description: >-
-      GraphQL queries for liquidation events on Morpho Markets — filter
-      marketTransactions by type Liquidation to retrieve seized collateral amounts,
-      repaid loan amounts, bad debt figures, liquidator addresses, transaction hashes,
-      and block timestamps for any market across supported chains.
-    humanURL: https://docs.morpho.org/tools/offchain/api/morpho/
-    baseURL: https://api.morpho.org/graphql
-    tags:
-      - Liquidations
-      - Risk
-      - Transactions
-      - Bad Debt
-    properties:
-      - type: Documentation
-        url: https://docs.morpho.org/tools/offchain/api/morpho/
-      - type: GraphQL
-        url: https://api.morpho.org/graphql
-
-  - aid: morpho:rewards-api
-    name: Morpho Rewards API
-    description: >-
-      GraphQL queries for Morpho rewards and incentive campaigns — retrieve supply
-      and borrow reward APRs per asset, campaign details, and user-level reward
-      accruals across markets and vaults. Enables calculation of net APY including
-      protocol incentives for both lenders and borrowers.
-    humanURL: https://docs.morpho.org/tools/offchain/api/get-started/
-    baseURL: https://api.morpho.org/graphql
-    tags:
-      - Rewards
-      - Campaigns
-      - Incentives
-      - APR
-    properties:
-      - type: Documentation
-        url: https://docs.morpho.org/tools/offchain/api/get-started/
-      - type: GraphQL
-        url: https://api.morpho.org/graphql
-
-  - aid: morpho:public-allocator-api
-    name: Morpho Public Allocator API
-    description: >-
-      GraphQL queries for the Morpho Public Allocator — retrieve allocator addresses
-      and configurations, query total reallocatable liquidity and market available
-      liquidity (combining direct and reallocatable sources), access vault reallocation
-      history with timestamps and asset amounts, and inspect per-vault flow cap
-      settings governing maximum inbound and outbound transfers per market.
-    humanURL: https://docs.morpho.org/tools/offchain/api/public-allocator/
-    baseURL: https://api.morpho.org/graphql
-    tags:
-      - Liquidity
-      - Allocation
-      - Reallocation
-      - Vaults
-    properties:
-      - type: Documentation
-        url: https://docs.morpho.org/tools/offchain/api/public-allocator/
-      - type: GraphQL
-        url: https://api.morpho.org/graphql
-
-  - aid: morpho:historical-api
-    name: Morpho Historical Data API
-    description: >-
-      GraphQL time-series queries for historical market and vault state — query
-      historicalState on markets or vaults with configurable startTimestamp,
-      endTimestamp, and interval (YEAR, QUARTER, MONTH, WEEK, DAY, HOUR) to retrieve
-      APY trends, supply and borrow USD volumes, utilization rates, and asset price
-      history. Returns the last 30 days of data by default.
-    humanURL: https://docs.morpho.org/tools/offchain/api/get-started/
-    baseURL: https://api.morpho.org/graphql
-    tags:
-      - Historical
-      - Time-Series
-      - Analytics
-      - APY
-      - Charts
-    properties:
-      - type: Documentation
-        url: https://docs.morpho.org/tools/offchain/api/get-started/
-      - type: GraphQL
-        url: https://api.morpho.org/graphql
-
-common:
+- aid: morpho:markets-api
+  name: Morpho Markets API
+  description: GraphQL queries for Morpho Blue lending markets — retrieve market parameters
+    (loan asset, collateral asset, LLTV, oracle, IRM), real-time state metrics (supply,
+    borrow, collateral assets and USD values, utilization), native and reward APYs,
+    oracle configurations, and risk warnings across all supported chains.
+  humanURL: https://docs.morpho.org/tools/offchain/api/morpho/
+  baseURL: https://api.morpho.org/graphql
+  tags:
+  - Markets
+  - Lending
+  - Borrowing
+  - APY
+  - TVL
+  properties:
   - type: Documentation
-    url: https://docs.morpho.org/
-  - type: Developer Portal
-    url: https://developers.morpho.org/
-  - type: GraphQL Playground
+    url: https://docs.morpho.org/tools/offchain/api/morpho/
+  - type: GraphQL
     url: https://api.morpho.org/graphql
-  - type: GitHub
-    url: https://github.com/morpho-org
-  - type: SDK
-    url: https://docs.morpho.org/tools/offchain/sdks/get-started/
-  - type: Blog
-    url: https://morpho.org/blog/
-  - type: Status
-    url: https://status.morpho.org/
-  - type: Support
-    url: https://help.morpho.org/
-  - type: Subgraphs
-    url: https://docs.morpho.org/tools/offchain/subgraphs/
-  - type: X
-    url: https://x.com/MorphoLabs
-  - type: Discord
-    url: https://discord.gg/morpho
+  - url: graphql/morpho-graphql.md
+    type: GraphQL
+- aid: morpho:vaults-api
+  name: Morpho Vaults API
+  description: GraphQL queries for Morpho Vaults (MetaMorpho V1 and V2) — discover
+    vault addresses, symbols, and assets; retrieve total deposits, liquidity, share
+    price, and APY metrics; track depositor positions and earnings (PnL, ROE); query
+    allocation queues and adapter breakdowns; and access time-series APY and allocation
+    history.
+  humanURL: https://docs.morpho.org/tools/offchain/api/morpho-vaults/
+  baseURL: https://api.morpho.org/graphql
+  tags:
+  - Vaults
+  - MetaMorpho
+  - APY
+  - Deposits
+  - Allocation
+  properties:
+  - type: Documentation
+    url: https://docs.morpho.org/tools/offchain/api/morpho-vaults/
+  - type: GraphQL
+    url: https://api.morpho.org/graphql
+- aid: morpho:positions-api
+  name: Morpho Positions API
+  description: GraphQL queries for individual user positions across Morpho Markets
+    and Vaults — query marketPositions for collateral, borrow assets, supply shares,
+    and USD values by user address; retrieve account overviews via userByAddress covering
+    both market and vault positions; and access vault depositor data including assets,
+    shares, and returns.
+  humanURL: https://docs.morpho.org/tools/offchain/api/morpho/
+  baseURL: https://api.morpho.org/graphql
+  tags:
+  - Positions
+  - Collateral
+  - Supply
+  - Borrow
+  - User
+  properties:
+  - type: Documentation
+    url: https://docs.morpho.org/tools/offchain/api/morpho/
+  - type: GraphQL
+    url: https://api.morpho.org/graphql
+- aid: morpho:liquidations-api
+  name: Morpho Liquidations API
+  description: GraphQL queries for liquidation events on Morpho Markets — filter marketTransactions
+    by type Liquidation to retrieve seized collateral amounts, repaid loan amounts,
+    bad debt figures, liquidator addresses, transaction hashes, and block timestamps
+    for any market across supported chains.
+  humanURL: https://docs.morpho.org/tools/offchain/api/morpho/
+  baseURL: https://api.morpho.org/graphql
+  tags:
+  - Liquidations
+  - Risk
+  - Transactions
+  - Bad Debt
+  properties:
+  - type: Documentation
+    url: https://docs.morpho.org/tools/offchain/api/morpho/
+  - type: GraphQL
+    url: https://api.morpho.org/graphql
+- aid: morpho:rewards-api
+  name: Morpho Rewards API
+  description: GraphQL queries for Morpho rewards and incentive campaigns — retrieve
+    supply and borrow reward APRs per asset, campaign details, and user-level reward
+    accruals across markets and vaults. Enables calculation of net APY including protocol
+    incentives for both lenders and borrowers.
+  humanURL: https://docs.morpho.org/tools/offchain/api/get-started/
+  baseURL: https://api.morpho.org/graphql
+  tags:
+  - Rewards
+  - Campaigns
+  - Incentives
+  - APR
+  properties:
+  - type: Documentation
+    url: https://docs.morpho.org/tools/offchain/api/get-started/
+  - type: GraphQL
+    url: https://api.morpho.org/graphql
+- aid: morpho:public-allocator-api
+  name: Morpho Public Allocator API
+  description: GraphQL queries for the Morpho Public Allocator — retrieve allocator
+    addresses and configurations, query total reallocatable liquidity and market available
+    liquidity (combining direct and reallocatable sources), access vault reallocation
+    history with timestamps and asset amounts, and inspect per-vault flow cap settings
+    governing maximum inbound and outbound transfers per market.
+  humanURL: https://docs.morpho.org/tools/offchain/api/public-allocator/
+  baseURL: https://api.morpho.org/graphql
+  tags:
+  - Liquidity
+  - Allocation
+  - Reallocation
+  - Vaults
+  properties:
+  - type: Documentation
+    url: https://docs.morpho.org/tools/offchain/api/public-allocator/
+  - type: GraphQL
+    url: https://api.morpho.org/graphql
+- aid: morpho:historical-api
+  name: Morpho Historical Data API
+  description: GraphQL time-series queries for historical market and vault state —
+    query historicalState on markets or vaults with configurable startTimestamp, endTimestamp,
+    and interval (YEAR, QUARTER, MONTH, WEEK, DAY, HOUR) to retrieve APY trends, supply
+    and borrow USD volumes, utilization rates, and asset price history. Returns the
+    last 30 days of data by default.
+  humanURL: https://docs.morpho.org/tools/offchain/api/get-started/
+  baseURL: https://api.morpho.org/graphql
+  tags:
+  - Historical
+  - Time-Series
+  - Analytics
+  - APY
+  - Charts
+  properties:
+  - type: Documentation
+    url: https://docs.morpho.org/tools/offchain/api/get-started/
+  - type: GraphQL
+    url: https://api.morpho.org/graphql
+common:
+- type: Documentation
+  url: https://docs.morpho.org/
+- type: Developer Portal
+  url: https://developers.morpho.org/
+- type: GraphQL Playground
+  url: https://api.morpho.org/graphql
+- type: GitHub
+  url: https://github.com/morpho-org
+- type: SDK
+  url: https://docs.morpho.org/tools/offchain/sdks/get-started/
+- type: Blog
+  url: https://morpho.org/blog/
+- type: Status
+  url: https://status.morpho.org/
+- type: Support
+  url: https://help.morpho.org/
+- type: Subgraphs
+  url: https://docs.morpho.org/tools/offchain/subgraphs/
+- type: X
+  url: https://x.com/MorphoLabs
+- type: Discord
+  url: https://discord.gg/morpho
 maintainers:
-  - FN: Kin Lane
-    X-twitter: kinlane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  X-twitter: kinlane
+  email: kin@apievangelist.com
