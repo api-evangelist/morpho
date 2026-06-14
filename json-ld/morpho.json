@@ -1,0 +1,104 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://morpho.org",
+  "name": "Morpho",
+  "url": "https://morpho.org",
+  "description": "Morpho is an open DeFi credit network enabling permissionless lending and borrowing of digital assets. The Morpho API provides a GraphQL-based interface to access comprehensive onchain and offchain data from the Morpho ecosystem in real time, covering Morpho Markets, Morpho Vaults, user positions, collateral, liquidations, rewards, and historical analytics across Ethereum, Base, Arbitrum, and other supported chains.",
+  "logo": "https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg",
+  "sameAs": [
+    "https://github.com/morpho-org",
+    "https://x.com/MorphoLabs",
+    "https://discord.gg/morpho"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "url": "https://help.morpho.org/",
+    "contactType": "customer support"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Morpho API Products",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "name": "Morpho Markets API",
+        "description": "GraphQL queries for Morpho Blue lending markets including market parameters, state metrics, APYs, oracle configurations, and risk warnings across all supported chains.",
+        "url": "https://docs.morpho.org/tools/offchain/api/morpho/"
+      },
+      {
+        "@type": "Offer",
+        "name": "Morpho Vaults API",
+        "description": "GraphQL queries for Morpho Vaults (MetaMorpho V1 and V2) covering vault addresses, total deposits, liquidity, share price, APY metrics, and time-series history.",
+        "url": "https://docs.morpho.org/tools/offchain/api/morpho-vaults/"
+      },
+      {
+        "@type": "Offer",
+        "name": "Morpho Positions API",
+        "description": "GraphQL queries for individual user positions across Morpho Markets and Vaults including collateral, borrow assets, supply shares, and USD values by user address.",
+        "url": "https://docs.morpho.org/tools/offchain/api/morpho/"
+      },
+      {
+        "@type": "Offer",
+        "name": "Morpho Liquidations API",
+        "description": "GraphQL queries for liquidation events on Morpho Markets including seized collateral, repaid loan amounts, bad debt figures, and transaction details.",
+        "url": "https://docs.morpho.org/tools/offchain/api/morpho/"
+      },
+      {
+        "@type": "Offer",
+        "name": "Morpho Rewards API",
+        "description": "GraphQL queries for Morpho rewards and incentive campaigns including supply and borrow reward APRs, campaign details, and user-level reward accruals.",
+        "url": "https://docs.morpho.org/tools/offchain/api/get-started/"
+      },
+      {
+        "@type": "Offer",
+        "name": "Morpho Public Allocator API",
+        "description": "GraphQL queries for the Morpho Public Allocator covering allocator configurations, reallocatable liquidity, vault reallocation history, and flow cap settings.",
+        "url": "https://docs.morpho.org/tools/offchain/api/public-allocator/"
+      },
+      {
+        "@type": "Offer",
+        "name": "Morpho Historical Data API",
+        "description": "GraphQL time-series queries for historical market and vault state including APY trends, supply and borrow volumes, utilization rates, and asset price history.",
+        "url": "https://docs.morpho.org/tools/offchain/api/get-started/"
+      }
+    ]
+  },
+  "subjectOf": [
+    {
+      "@type": "WebSite",
+      "name": "Morpho Documentation",
+      "url": "https://docs.morpho.org/"
+    },
+    {
+      "@type": "WebSite",
+      "name": "Morpho Developer Portal",
+      "url": "https://developers.morpho.org/"
+    },
+    {
+      "@type": "WebSite",
+      "name": "Morpho Blog",
+      "url": "https://morpho.org/blog/"
+    },
+    {
+      "@type": "WebSite",
+      "name": "Morpho Status",
+      "url": "https://status.morpho.org/"
+    }
+  ],
+  "keywords": [
+    "DeFi",
+    "Lending",
+    "Borrowing",
+    "Collateral",
+    "Liquidations",
+    "Rewards",
+    "Markets",
+    "Vaults",
+    "Web3",
+    "GraphQL",
+    "Ethereum",
+    "Base",
+    "Arbitrum"
+  ]
+}
