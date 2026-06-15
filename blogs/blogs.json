@@ -1,6 +1,6 @@
 {
   "url": "https://morpho.org/blog/",
-  "fetched": "2026-06-14",
+  "fetched": "2026-06-14T20:42:17Z",
   "posts": [
     {
       "title": "Morpho Association Raises $175M To Build The Open Credit Network For The World",
@@ -93,5 +93,16 @@
       "category": "Product",
       "description": "Highlights improvements to Morpho's vault offering and asset management approach with V2."
     }
-  ]
+  ],
+  "repo": "morpho",
+  "feeds": [
+    {
+      "source": "https://docs.morpho.org/tools/offchain/sdks/get-started/",
+      "feed_url": "https://docs.morpho.org/tools/offchain/sdks/get-started/",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0
 }
