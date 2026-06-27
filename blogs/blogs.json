@@ -1,6 +1,6 @@
 {
   "url": "https://morpho.org/blog/",
-  "fetched": "2026-06-14T20:42:17Z",
+  "fetched": "2026-06-27T12:55:03Z",
   "posts": [
     {
       "title": "Morpho Association Raises $175M To Build The Open Credit Network For The World",
@@ -97,12 +97,12 @@
   "repo": "morpho",
   "feeds": [
     {
-      "source": "https://docs.morpho.org/tools/offchain/sdks/get-started/",
-      "feed_url": "https://docs.morpho.org/tools/offchain/sdks/get-started/",
-      "title": "",
+      "source": "https://morpho.org/blog/",
+      "feed_url": "",
       "saved": 0,
-      "method": "none"
+      "method": "agent-scrape"
     }
   ],
-  "post_count": 0
+  "post_count": 0,
+  "agent_pulled": "2026-06-27"
 }

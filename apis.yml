@@ -163,13 +163,13 @@ apis:
 common:
 - type: Documentation
   url: https://docs.morpho.org/
-- type: Developer Portal
+- type: DeveloperPortal
   url: https://developers.morpho.org/
 - type: GraphQL Playground
   url: https://api.morpho.org/graphql
 - type: GitHub
   url: https://github.com/morpho-org
-- type: SDK
+- type: SDKs
   url: https://docs.morpho.org/tools/offchain/sdks/get-started/
 - type: Blog
   url: https://morpho.org/blog/
