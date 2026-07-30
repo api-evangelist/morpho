@@ -9,7 +9,19 @@ description: Morpho is an open DeFi credit network enabling permissionless lendi
   rewards, and historical analytics across Ethereum, Base, Arbitrum, and other supported
   chains. The API is publicly accessible without authentication and includes a companion
   TypeScript SDK suite for application integration.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: free
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Free
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/morpho.png
 tags:
 - DeFi
 - Lending
