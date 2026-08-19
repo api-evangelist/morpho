@@ -34,7 +34,7 @@ tags:
 - Web3
 created: '2026-06-14'
 modified: '2026-06-14'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: morpho:markets-api
   name: Morpho Markets API
