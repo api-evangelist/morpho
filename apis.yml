@@ -30,6 +30,16 @@ tags:
 - Liquidations
 - Rewards
 - Markets
+- Vault
+- Web3
+tags_raw:
+- DeFi
+- Lending
+- Borrowing
+- Collateral
+- Liquidations
+- Rewards
+- Markets
 - Vaults
 - Web3
 created: '2026-06-14'
@@ -67,6 +77,12 @@ apis:
   humanURL: https://docs.morpho.org/tools/offchain/api/morpho-vaults/
   baseURL: https://api.morpho.org/graphql
   tags:
+  - Vault
+  - MetaMorpho
+  - APY
+  - Deposits
+  - Allocations
+  tags_raw:
   - Vaults
   - MetaMorpho
   - APY
@@ -108,6 +124,11 @@ apis:
   tags:
   - Liquidations
   - Risk
+  - Transaction
+  - Bad Debt
+  tags_raw:
+  - Liquidations
+  - Risk
   - Transactions
   - Bad Debt
   properties:
@@ -144,6 +165,11 @@ apis:
   baseURL: https://api.morpho.org/graphql
   tags:
   - Liquidity
+  - Allocations
+  - Reallocation
+  - Vault
+  tags_raw:
+  - Liquidity
   - Allocation
   - Reallocation
   - Vaults
@@ -162,6 +188,12 @@ apis:
   humanURL: https://docs.morpho.org/tools/offchain/api/get-started/
   baseURL: https://api.morpho.org/graphql
   tags:
+  - Historical
+  - Time Series
+  - Analytics
+  - APY
+  - Charts
+  tags_raw:
   - Historical
   - Time-Series
   - Analytics
