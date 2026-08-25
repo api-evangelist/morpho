@@ -100,12 +100,11 @@
       "feed_url": "https://docs.morpho.org/tools/offchain/sdks/get-started/",
       "title": "",
       "saved": 0,
-      "method": "none",
-      "error": "parse_failed"
+      "method": "none"
     }
   ],
   "post_count": 0,
   "agent_pulled": "2026-06-27",
-  "fetched": "2026-08-15T12:11:08Z",
+  "fetched": "2026-08-22T20:20:02Z",
   "note": "feed retry 429 rate-limited on 2026-07-04; no new posts captured this run"
 }
