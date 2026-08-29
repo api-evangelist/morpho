@@ -9,6 +9,17 @@ description: Morpho is an open DeFi credit network enabling permissionless lendi
   rewards, and historical analytics across Ethereum, Base, Arbitrum, and other supported
   chains. The API is publicly accessible without authentication and includes a companion
   TypeScript SDK suite for application integration.
+deliveryModel:
+  model: library
+  open_source: false
+  commercial: false
+  callable_host: false
+  label: Library · distributed through package registries, no callable service
+  confidence: low
+  source:
+  - none
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: free
   onboarding: unknown
