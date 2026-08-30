@@ -92,7 +92,7 @@ apis:
   - MetaMorpho
   - APY
   - Deposits
-  - Allocations
+  - Allocation
   tags_raw:
   - Vaults
   - MetaMorpho
@@ -176,7 +176,7 @@ apis:
   baseURL: https://api.morpho.org/graphql
   tags:
   - Liquidity
-  - Allocations
+  - Allocation
   - Reallocation
   - Vault
   tags_raw:
@@ -200,7 +200,7 @@ apis:
   baseURL: https://api.morpho.org/graphql
   tags:
   - Historical
-  - Time Series
+  - Time-Series
   - Analytics
   - APY
   - Charts
