@@ -216,6 +216,8 @@ apis:
   - type: GraphQL
     url: https://api.morpho.org/graphql
 common:
+- type: Website
+  url: https://www.morpho.org/
 - type: DomainSecurity
   url: security/morpho-domain-security.yml
 - type: Documentation
