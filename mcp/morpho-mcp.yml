@@ -1,0 +1,55 @@
+generated: '2026-09-11'
+method: probed
+source: https://mcp.morpho.org/mcp
+status: published
+server:
+  name: morpho
+  transport: http
+  url: https://mcp.morpho.org/mcp
+deployment:
+  mode: remote
+  endpoint: https://mcp.morpho.org/mcp
+  verified: probed
+  probe: live
+  checked: '2026-09-11'
+  source: docs-check 2026-09-12 (endpoint found in the provider's own documentation, then probed)
+tools_count: 18
+tools:
+- name: morpho_health_check
+  description: ''
+- name: morpho_get_supported_chains
+  description: ''
+- name: morpho_query_vaults
+  description: ''
+- name: morpho_get_vault
+  description: ''
+- name: morpho_query_markets
+  description: ''
+- name: morpho_get_market
+  description: ''
+- name: morpho_get_market_positions
+  description: ''
+- name: morpho_get_vault_positions
+  description: ''
+- name: morpho_get_token_balance
+  description: ''
+- name: morpho_doc_search
+  description: ''
+- name: morpho_prepare_deposit
+  description: ''
+- name: morpho_prepare_withdraw
+  description: ''
+- name: morpho_prepare_supply
+  description: ''
+- name: morpho_prepare_borrow
+  description: ''
+- name: morpho_prepare_repay
+  description: ''
+- name: morpho_prepare_supply_collateral
+  description: ''
+- name: morpho_prepare_withdraw_collateral
+  description: ''
+- name: morpho_prepare_claim_rewards
+  description: ''
+tools_source: live tools/list via initialize handshake, 2026-09-12 (signals/audit_mcp_authorship.py --probe)
+authorship: provider
