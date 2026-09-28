@@ -16,40 +16,62 @@ deployment:
 tools_count: 18
 tools:
 - name: morpho_health_check
-  description: ''
+  description: Check the health status of the MCP server and connected services
 - name: morpho_get_supported_chains
-  description: ''
+  description: List known chains with Core REST protocols and RPC-tool capabilities
 - name: morpho_query_vaults
-  description: ''
+  description: List Morpho vaults by version and chain slug or numeric REST chain ID with filtering, sorting,
+    and cursor pagination
 - name: morpho_get_vault
-  description: ''
+  description: Get a Morpho vault, indexed state, APY, and allocations from the REST API
 - name: morpho_query_markets
-  description: ''
+  description: List Morpho markets by chain slug or numeric REST chain ID with asset, listed-status, and
+    cursor filters
 - name: morpho_get_market
-  description: ''
+  description: Get a Morpho market and its indexed state from the REST API
 - name: morpho_get_market_positions
-  description: ''
+  description: Get a user position for explicit Morpho market IDs from REST; REST cannot discover all
+    market IDs for a user
 - name: morpho_get_vault_positions
-  description: ''
+  description: List a user's active Morpho vault positions from REST by vault version
 - name: morpho_get_token_balance
-  description: ''
+  description: Get token balance and whether the user needs to approve Morpho or the Bundler before writing.
+    Balance and allowances are self-describing TokenAmounts.
 - name: morpho_doc_search
-  description: ''
+  description: Search the Morpho documentation (docs.morpho.org) by semantic similarity. Returns raw search
+    hits; each hit carries the matched text plus metadata (page title, absolute docs.morpho.org url, breadcrumbs,
+    excerpt).
 - name: morpho_prepare_deposit
-  description: ''
+  description: Prepare a deposit into a Morpho vault. Checks on-chain allowance and returns a ready-to-sign
+    transactions array with approval txs (if needed) followed by the deposit tx. Handles USDT reset-to-zero
+    and DAI non-standard approval.
 - name: morpho_prepare_withdraw
-  description: ''
+  description: Prepare a withdraw from a Morpho vault. Returns a ready-to-sign transactions array. Supports
+    "max" for full withdrawal. No approval needed for withdrawals.
 - name: morpho_prepare_supply
-  description: ''
+  description: Prepare a supply to a Morpho Blue market. Checks on-chain allowance and returns a ready-to-sign
+    transactions array with approval txs (if needed) followed by the supply tx. Handles USDT reset-to-zero
+    and DAI non-standard approval.
 - name: morpho_prepare_borrow
-  description: ''
+  description: Prepare a borrow on a Morpho Blue market. Returns a ready-to-sign transactions array with
+    the borrow tx. Includes health factor check against existing collateral position.
 - name: morpho_prepare_repay
-  description: ''
+  description: Prepare a repay on a Morpho Blue market. Checks on-chain allowance and returns a ready-to-sign
+    transactions array with approval txs (if needed) followed by the repay tx. Supports "max" for full
+    repayment. Handles USDT reset-to-zero and DAI
 - name: morpho_prepare_supply_collateral
-  description: ''
+  description: Prepare a supply of collateral tokens to a Morpho Blue market without borrowing. Checks
+    on-chain allowance and returns a ready-to-sign transactions array with approval txs (if needed) followed
+    by the supply collateral tx. Handles USDT reset
 - name: morpho_prepare_withdraw_collateral
-  description: ''
+  description: Prepare a withdrawal of collateral tokens from a Morpho Blue market position. Returns a
+    ready-to-sign transactions array. Supports "max" for full collateral withdrawal. Includes health factor
+    check when user has active borrows. No approval
 - name: morpho_prepare_claim_rewards
-  description: ''
+  description: Fetch a user's claimable Merkl rewards and prepare a single claim transaction against the
+    canonical Merkl Distributor (0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae). Returns a ready-to-sign
+    transaction; if nothing is claimable, returns an emp
 tools_source: live tools/list via initialize handshake, 2026-09-12 (signals/audit_mcp_authorship.py --probe)
 authorship: provider
+descriptions_source: live tools/list (authorship probe or saved capture); filled by backfill-tools-from-authorship.py
+  --descriptions, 2026-09-28
