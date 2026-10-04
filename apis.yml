@@ -134,7 +134,7 @@ apis:
   baseURL: https://api.morpho.org/graphql
   tags:
   - Liquidations
-  - Risk
+  - Risk Management
   - Transaction
   - Bad Debt
   tags_raw:
