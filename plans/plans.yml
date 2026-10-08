@@ -30,3 +30,16 @@ plans:
       - Multi-chain support (Ethereum, Base, Arbitrum, and more)
     sla: None — provided as-is
     support: https://help.morpho.org/
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  units: []
+  plans:
+  - name: Public API
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
