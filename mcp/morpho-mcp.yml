@@ -13,15 +13,17 @@ deployment:
   probe: live
   checked: '2026-09-11'
   source: docs-check 2026-09-12 (endpoint found in the provider's own documentation, then probed)
-tools_count: 18
+tools_count: 81
 tools:
 - name: morpho_health_check
   description: Check the health status of the MCP server and connected services
 - name: morpho_get_supported_chains
   description: List known chains with Core REST protocols and RPC-tool capabilities
 - name: morpho_query_vaults
-  description: List Morpho vaults by version and chain slug or numeric REST chain ID with filtering, sorting,
-    and cursor pagination
+  description: 'List Morpho vaults by version and chain slug or numeric REST chain ID with filtering,
+    sorting, and cursor pagination. Returns no APY or TVL: use morpho_get_vault (registered chain slugs
+    only), or morpho_vault_v1_get_state / morpho_vault_v2_get_state and morpho_vault_v1_get_apy_averages
+    / morpho_vault_v2_get_apy_averages (any chain ID).'
 - name: morpho_get_vault
   description: Get a Morpho vault, indexed state, APY, and allocations from the REST API
 - name: morpho_query_markets
@@ -41,36 +43,494 @@ tools:
   description: Search the Morpho documentation (docs.morpho.org) by semantic similarity. Returns raw search
     hits; each hit carries the matched text plus metadata (page title, absolute docs.morpho.org url, breadcrumbs,
     excerpt).
-- name: morpho_prepare_deposit
-  description: Prepare a deposit into a Morpho vault. Checks on-chain allowance and returns a ready-to-sign
-    transactions array with approval txs (if needed) followed by the deposit tx. Handles USDT reset-to-zero
-    and DAI non-standard approval.
-- name: morpho_prepare_withdraw
-  description: Prepare a withdraw from a Morpho vault. Returns a ready-to-sign transactions array. Supports
-    "max" for full withdrawal. No approval needed for withdrawals.
-- name: morpho_prepare_supply
-  description: Prepare a supply to a Morpho Blue market. Checks on-chain allowance and returns a ready-to-sign
-    transactions array with approval txs (if needed) followed by the supply tx. Handles USDT reset-to-zero
-    and DAI non-standard approval.
-- name: morpho_prepare_borrow
-  description: Prepare a borrow on a Morpho Blue market. Returns a ready-to-sign transactions array with
-    the borrow tx. Includes health factor check against existing collateral position.
-- name: morpho_prepare_repay
-  description: Prepare a repay on a Morpho Blue market. Checks on-chain allowance and returns a ready-to-sign
-    transactions array with approval txs (if needed) followed by the repay tx. Supports "max" for full
-    repayment. Handles USDT reset-to-zero and DAI
-- name: morpho_prepare_supply_collateral
-  description: Prepare a supply of collateral tokens to a Morpho Blue market without borrowing. Checks
-    on-chain allowance and returns a ready-to-sign transactions array with approval txs (if needed) followed
-    by the supply collateral tx. Handles USDT reset
-- name: morpho_prepare_withdraw_collateral
-  description: Prepare a withdrawal of collateral tokens from a Morpho Blue market position. Returns a
-    ready-to-sign transactions array. Supports "max" for full collateral withdrawal. Includes health factor
-    check when user has active borrows. No approval
 - name: morpho_prepare_claim_rewards
   description: Fetch a user's claimable Merkl rewards and prepare a single claim transaction against the
     canonical Merkl Distributor (0x3Ef3D8bA38EBe18DB133cEc108f4D14CE00Dd9Ae). Returns a ready-to-sign
-    transaction; if nothing is claimable, returns an emp
+    transaction; if nothing is claimable, returns an empty transactions array with an info-level warning.
+    No on-chain approval needed — the Distributor pulls from its own balance via Merkle proofs.
+- name: morpho_blue_get_market
+  description: 'Get the fixed configuration of a Morpho market: loan and collateral tokens, oracle, interest
+    rate model and liquidation LTV.'
+- name: morpho_blue_get_market_apy_averages
+  description: Get the average supply APY (what lenders earn) and borrow APY (what borrowers pay) of a
+    Morpho market over fixed past periods. Rewards are not included.
+- name: morpho_blue_get_market_apy_history
+  description: Get the supply and borrow APY of a Morpho market over time, for charting. Rewards are not
+    included.
+- name: morpho_blue_get_market_liquidity
+  description: Get how much can be borrowed or withdrawn from a Morpho market right now, and separately
+    how much more the Public Allocator could move in from vaults. That extra amount is not available until
+    it is reallocated.
+- name: morpho_blue_get_market_state
+  description: 'Get the current totals of a Morpho market: assets supplied and borrowed, shares, and fee.'
+- name: morpho_blue_get_market_state_history
+  description: Get how a Morpho market’s supplied and borrowed totals changed over a lookback period.
+- name: morpho_blue_get_user_position
+  description: 'Get a user’s current position in a Morpho market: collateral deposited, amount supplied
+    and amount borrowed (as shares).'
+- name: morpho_blue_get_user_position_history
+  description: Get how a user’s collateral, supply and borrow in a Morpho market changed over time.
+- name: morpho_blue_get_user_position_performance
+  description: Get what a user has earned on supply and paid on borrow in a Morpho market, realized and
+    unrealized. Rewards are not included.
+- name: morpho_vault_v1_list_vaults
+  description: 'List listed Morpho V1 vaults across chains: name, underlying asset, fees, owner and curator.
+    Use morpho_vault_v1_get_state for TVL and morpho_vault_v1_get_apy_averages for yield. Paginate by
+    passing back `cursor` until it is null. The curator is an address, not a name.'
+- name: morpho_vault_v1_get_vault
+  description: 'Get the configuration of a Morpho V1 vault: name, symbol, underlying asset, fees, owner,
+    curator, guardian and timelock.'
+- name: morpho_vault_v1_get_allocations
+  description: Get which markets a Morpho V1 vault lends to, how much it supplies to each and each market’s
+    cap, including pending cap changes and removals.
+- name: morpho_vault_v1_get_allocation_history
+  description: Get how a Morpho V1 vault’s supply and caps in each market changed over time.
+- name: morpho_vault_v1_get_apy_averages
+  description: Get the APY depositors actually earned in a Morpho V1 vault over a past period, after fees.
+    Rewards are not included.
+- name: morpho_vault_v1_get_apy_history
+  description: Get the APY of a Morpho V1 vault over time, for charting.
+- name: morpho_vault_v1_get_pending_governance_actions
+  description: 'Get pending governance changes for a Morpho V1 vault that have not taken effect yet: timelocked
+    cap increases, timelock or guardian changes and market removals, plus pending ownership transfers,
+    which are not timelocked. Paginate by passing back `cursor` until it is null.'
+- name: morpho_vault_v1_get_state
+  description: 'Get the current totals of a Morpho V1 vault: total assets deposited, total shares and
+    assets available to withdraw.'
+- name: morpho_vault_v1_get_state_history
+  description: Get how a Morpho V1 vault’s total assets, shares, withdrawable assets and share price changed
+    over time.
+- name: morpho_vault_v1_get_user_position
+  description: 'Get a user’s current deposit in a Morpho V1 vault: shares held and their value in the
+    underlying asset.'
+- name: morpho_vault_v1_get_user_position_activity
+  description: List a user’s deposits, withdrawals and share transfers in a Morpho V1 vault, newest first.
+    Paginate by passing back `cursor` until it is null.
+- name: morpho_vault_v1_get_user_position_history
+  description: Get how a user’s deposit in a Morpho V1 vault changed over time.
+- name: morpho_vault_v1_get_user_position_performance
+  description: Get what a user has earned on their deposit in a Morpho V1 vault, realized and unrealized,
+    and their return on capital.
+- name: morpho_vault_v2_list_vaults
+  description: 'List listed Morpho V2 vaults across chains: name, underlying asset, fees, owner and curator.
+    Use morpho_vault_v2_get_state for TVL and morpho_vault_v2_get_apy_averages for yield. Paginate by
+    passing back `cursor` until it is null. The curator is an address, not a name.'
+- name: morpho_vault_v2_get_vault
+  description: 'Get the configuration of a Morpho V2 vault: name, underlying asset, fees, owner, curator,
+    adapters and access gates.'
+- name: morpho_vault_v2_get_allocations
+  description: 'Get where a Morpho V2 vault puts its deposits: each adapter, the caps that apply to it
+    and the assets allocated under each cap. Collateral caps and caps not tied to one adapter are listed
+    separately under `unscoped_caps`.'
+- name: morpho_vault_v2_get_apy_history
+  description: Get the APY of a Morpho V2 vault over time, for charting.
+- name: morpho_vault_v2_get_caps_history
+  description: Get how a Morpho V2 vault’s allocations and caps changed over time.
+- name: morpho_vault_v2_get_pending_governance_actions
+  description: Get changes queued behind a Morpho V2 vault’s timelock that have not taken effect yet.
+    Paginate by passing back `cursor` until it is null.
+- name: morpho_vault_v2_get_state_history
+  description: Get how a Morpho V2 vault’s total assets, shares, withdrawable, allocated and idle assets
+    and share price changed over time.
+- name: morpho_vault_v2_get_user_position
+  description: 'Get a user’s current deposit in a Morpho V2 vault: shares held and their value in the
+    underlying asset.'
+- name: morpho_vault_v2_get_user_position_activity
+  description: List a user’s deposits, withdrawals and share transfers in a Morpho V2 vault, newest first.
+    Paginate by passing back `cursor` until it is null.
+- name: morpho_vault_v2_get_user_position_history
+  description: Get how a user’s deposit in a Morpho V2 vault changed over time.
+- name: morpho_vault_v2_get_user_position_performance
+  description: Get what a user has earned on their deposit in a Morpho V2 vault, realized and unrealized,
+    and their return on capital.
+- name: morpho_vault_v2_get_withdrawal_options
+  description: Get how much can be withdrawn from a Morpho V2 vault right now, and how much more can be
+    freed by forcing adapters to deallocate, with the penalty for doing so.
+- name: morpho_blue_list_markets
+  description: List Morpho markets (loan token, collateral token, oracle, IRM, LLTV), filterable by chain,
+    token and market id. Returns configuration only; use morpho_blue_get_market_state for supply and borrow
+    totals. Paginate by passing back `cursor` until it is null.
+- name: morpho_vault_v1_list_user_positions
+  description: List a user’s deposits in Morpho V1 vaults across chains. Only non-zero positions by default.
+    Paginate by passing back `cursor` until it is null.
+- name: morpho_vault_v2_get_apy_averages
+  description: Get the APY depositors actually earned in a Morpho V2 vault over a past period. Rewards
+    are not included.
+- name: morpho_vault_v2_get_state
+  description: 'Get the current totals of a Morpho V2 vault: total assets deposited, total shares, assets
+    available to withdraw, and allocated and idle assets.'
+- name: morpho_vault_v2_list_user_positions
+  description: List a user’s deposits in Morpho V2 vaults across chains. Only non-zero positions by default;
+    fee wrappers are not included. Paginate by passing back `cursor` until it is null.
+- name: morpho_midnight_list_markets
+  description: 'Cursor-paginated list of Midnight markets.
+
+
+    **Use this to discover markets.** For a given user''s positions on those markets, follow up with `morpho_midnight_list_user_positions`.
+
+
+    **Filters.** Address filters (`loan_assets`, `collateral_assets`, `oracle_addresses`, `enter_gates`,
+    `liquidator_gates`) must be combined with `chain_ids` — an address alone is not chain-unique. Lowercase
+    addresses are checksummed server-side. Pass `active_only=true` to exclude markets past maturity.
+
+
+    **Pagination.** Response follows the list envelope: `{ cursor, data }`. Pass back `cursor` verbatim
+    on the next call. A `null` `cursor` means the last page.
+
+
+    **Cache.** `public, max-age=5, stale-while-revalidate=2`.'
+- name: morpho_midnight_get_market
+  description: 'Detail lookup for a single market. `:market-id` is the stable Midnight market id and is
+    unique across supported chains, so no chain id is required.
+
+
+    Returns the immutable market configuration inside a `data` envelope. Use `morpho_midnight_get_market_state`
+    for dynamic market state. 404s when the id is unknown.'
+- name: morpho_midnight_get_market_state
+  description: 'Dynamic state lookup for a single market. `:market-id` is the stable Midnight market id
+    and is unique across supported chains, so no chain id is required.
+
+
+    Returns the market state inside a `data` envelope. Use `morpho_midnight_get_market` for immutable
+    market configuration. 404s when the id is unknown.'
+- name: morpho_midnight_list_user_positions
+  description: 'Cursor-paginated list of a user''s current Midnight positions.
+
+
+    **Position type.** `type` is `lend` for positions with credit, `borrow` for positions with debt, or
+    `collateral_only` for positions with no credit or debt but remaining collateral. Closed positions
+    with no credit, no debt, and no remaining collateral are excluded.
+
+
+    **Performance fields.** `cost_basis` uses the average cost method and is returned as a WAD-scaled
+    bigint string in loan-token units. `effective_rate_wad` is the unchanged WAD-scaled compounded IRR+
+    using a 365.25-day year; `effective_apr` is the simple annualized decimal fraction using a 365-day
+    year, capped at `10`, and derived from persisted open lots. Analytics can be `null` when there is
+    not enough attributable history.
+
+
+    **Filters.** `chain_ids` is required when `loan_assets` is provided. `collateral_assets` matches configured
+    market collateral tokens across all chains unless `chain_ids` narrows the query; lowercase addresses
+    are checksummed. Range filters exist on `created_at`, `credit`, `debt`, `cost_basis`, and `effective_rate_wad`.
+    `effective_apr` has no filter or sort key. `active_only=true` excludes matured markets. `listed=true`
+    keeps only positions on listed markets; `listed=false` keeps only positions on unlisted markets.
+
+
+    **Pagination.** Response envelope: `{ cursor, data }`. Positions are ordered newest-first by `created_at`
+    by default.
+
+
+    **Cache.** `public, max-age=2, stale-while-revalidate=1`.'
+- name: morpho_midnight_list_market_positions
+  description: 'Cursor-paginated list of current Midnight positions for a market.
+
+
+    `:market-id` is the stable Midnight market id and is globally unique across supported chains.
+
+
+    The response uses the same public position item shape as `morpho_midnight_list_user_positions`: `{
+    cursor, data }`, with `type`, state fields, collateral balances, and performance analytics.
+
+
+    **Filters.** Range filters exist on `created_at`, `credit`, `debt`, `cost_basis`, and `effective_rate_wad`.
+    `effective_apr` has no filter or sort key. `active_only=true` excludes matured markets. The path market
+    id is always enforced.
+
+
+    **Pagination.** Pass back `cursor` verbatim on the next call. Positions are ordered newest-first by
+    `created_at` by default.
+
+
+    **Cache.** `public, max-age=2, stale-while-revalidate=1`.'
+- name: morpho_midnight_get_user_position
+  description: 'Detail lookup for a single position by `(market-id, user-address)`.
+
+
+    `:market-id` is the stable Midnight market id and is globally unique across supported chains. `:user-address`
+    accepts any casing and is checksummed server-side.
+
+
+    Returns the position inside a `data` envelope. When the position is **closed** (no credit, no debt,
+    no remaining collateral) or has never existed for a known market, the endpoint returns zero balances
+    with `type: null`. Positions with `credit == 0 && debt == 0` but non-empty `collaterals` are returned
+    as `type: "collateral_only"`.'
+- name: morpho_midnight_get_user_position_performance
+  description: 'Performance-only lookup for a single position by `(market-id, user-address)`.
+
+
+    Returns performance analytics inside a `data` envelope. `effective_rate_wad` is compounded IRR+ using
+    a 365.25-day year; `effective_apr` is simple interest using a 365-day year and is capped at `10` (1000%).
+    The position detail endpoint omits these fields to keep state and performance concerns separate. When
+    the position is closed or has never existed for a known market, this endpoint returns `type: null`
+    and null analytics.'
+- name: morpho_midnight_get_offer_group
+  description: 'Returns every offer group matching the onchain group id, regardless of lifecycle status.
+    The maker is not required; optional chain_id and maker query parameters can disambiguate the lookup.
+    Distinct chain, maker, and group-id combinations remain separate, and no match returns an empty data
+    array.
+
+
+    The endpoint returns every latest offer revision in each matched group and exposes the current lifecycle
+    as `status`. Each group exposes the shared offer intent as `type`, or `null` when its latest offers
+    have inconsistent `buy` and `reduce_only` values. It does not apply Router mempool admission policy:
+    oracle, token, market-triplet, LLTV, RCF threshold, and other mempool-validation policy checks do
+    not gate retrieval.
+
+
+    Each nested offer includes the exact per-offer `ratifier_data` bytes originally submitted, plus `parsed_ratifier_data`,
+    a structured view discriminated by `ratifier_type`. The type is identified by matching `ratifier`
+    against the chain''s known Midnight ratifier deployments: `rate_v1` exposes `rate_per_second_wad`
+    and `allowed_taker`, `price_v1` exposes `allowed_taker` (the offer-level `tick` is the ratified price),
+    and `ecrecover` and `setter` expose only their type. A zero `allowed_taker` means any taker may take
+    the offer. An unrecognized ratifier address returns `unknown`; a recognized address whose `ratifier_data`
+    cannot be decoded returns `invalid` with `expected_ratifier_type`.'
+- name: morpho_midnight_list_user_offer_groups
+  description: 'Cursor-paginated list of a user''s offer groups with nested offers. The `statuses` filter
+    accepts one or more lifecycle states with OR semantics. The deprecated singular `status` parameter
+    is a single-value alias; requests containing both are rejected. Omitting both defaults to `active`
+    for backward compatibility.
+
+
+    **Maturity policy.** The list includes only offers whose maturity is at 15:00 UTC, the maturities
+    Router quotes. Other offers are excluded before lifecycle, filters, type, callback, and group `expiry`
+    are computed, and groups with no such offer are omitted. The by-group endpoint returns every offer
+    regardless of maturity.
+
+
+    Lifecycle is derived from every latest 15:00 UTC offer revision before market, asset, maturity, type,
+    callback, or listing filters are applied. `cancelled` has highest priority and requires an explicit
+    `SetConsumed(type(uint128).max)` event; a `Take` reaching the same numeric value remains `filled`.
+    Otherwise, a group is `filled` when every latest leg has no remaining capacity. It is `active` when
+    at least one remaining leg has started and is at or before both its expiry and non-zero maturity.
+    It is `scheduled` when no leg is active but at least one remaining leg starts in the future without
+    having expired or matured. All remaining groups are `expired`. Active takes remain valid at exact
+    expiry or maturity, matching the onchain inclusive boundary.
+
+
+    Nested offers are lifecycle-targeted for list results: active returns live remaining-capacity legs,
+    scheduled returns future remaining-capacity legs, filled and cancelled return all latest legs, and
+    expired returns terminal expired or matured legs. Active and scheduled group `expiry` is the maximum
+    not-yet-ended latest-offer horizon; terminal statuses use the complete latest set. Requesting all
+    five statuses returns every group with a 15:00 UTC offer exactly once.
+
+
+    **Callbacks.** A group has `callback.type=blue_buy` only when every latest offer considered for the
+    lifecycle has the same callback address and data, contains canonical Blue market parameters with the
+    matching loan token, and the earliest indexed registration from the official factory names the maker
+    as owner at or before the offer''s creation block. Registration transaction or log order within the
+    same block is intentionally ignored. The callback is `null` when any condition fails. Verified callbacks
+    include their address, decoded Blue market parameters, and derived Blue market id.
+
+
+    **Types.** Group `type` is derived from the shared `buy` and `reduce_only` values across all offers
+    considered for the requested lifecycle. `buy` and `sell` mean `reduce_only=false`; `buy_reduce_only`
+    and `sell_reduce_only` mean `reduce_only=true`. For the portfolio, `buy` and `sell_reduce_only` represent
+    lend orders and secondary exits, while `sell` and `buy_reduce_only` represent borrow orders and secondary
+    exits. Inconsistent groups return `type: null` and do not match the `types` filter. This describes
+    offer intent, not the maker''s current position.
+
+
+    **Filters.** `market_ids` filters the group page to groups containing at least one offer in the requested
+    lifecycle and any requested market, but does not narrow nested sibling offers. `chain_ids` and `groups`
+    filter the group page and nested offers. `loan_assets`, `collateral_assets`, exact `maturities`, and
+    the inclusive unix-second bounds `maturity_gte` and `maturity_lte` filter both the group page and
+    returned offers in the requested lifecycle for every status, and combine with other filters using
+    AND semantics. `types` accepts comma-separated offer-group types with OR semantics and combines with
+    other filters using AND semantics without narrowing nested offers. `callback_type=blue_buy` keeps
+    only groups with verified Blue callback metadata. `listed=true` requires every lifecycle-matching
+    offer in a group to be on a listed market; `listed=false` requires at least one lifecycle-matching
+    unlisted offer. Address filters match across all chains unless `chain_ids` also narrows the query;
+    lowercase addresses are checksummed. Group `expiry` is not narrowed by offer filters; active results
+    use the active-eligible latest offer set, while expired results use the complete latest offer set.
+    `created_at_gte` and `created_at_lte` filter by the first matching offer created in each group. `market_ids`,
+    `loan_assets`, `collateral_assets`, `maturities`, `groups`, and `types` are capped at 20 values. Each
+    offer includes both `market_id` and the immutable `market` config used to derive it, because uncreated
+    markets cannot be decoded from `market_id` alone.
+
+
+    **Ratifier data.** Each nested offer includes the exact per-offer `ratifier_data` bytes originally
+    submitted, plus `parsed_ratifier_data`, a structured view discriminated by `ratifier_type`. The type
+    is identified by matching `ratifier` against the chain''s known Midnight ratifier deployments: `rate_v1`
+    exposes `rate_per_second_wad` and `allowed_taker`, `price_v1` exposes `allowed_taker` (the offer-level
+    `tick` is the ratified price), and `ecrecover` and `setter` expose only their type. A zero `allowed_taker`
+    means any taker may take the offer. An unrecognized ratifier address returns `unknown`; a recognized
+    address whose `ratifier_data` cannot be decoded returns `invalid` with `expected_ratifier_type`.
+
+
+    **Pagination.** Response follows the list envelope: `{ cursor, data }`. Pagination is over groups;
+    nested offers are not split across pages. Sort groups with `sort_by=id|created_at` and `sort_direction=asc|desc`.'
+- name: morpho_midnight_list_books
+  description: Returns books for active maturities admitted by the current policy, with market metadata
+    and the top 3 ask/bid levels. Unlisted and past maturities are excluded, even when requested with
+    `ids`. If a maturity leaves the policy, its books are hidden immediately, including books with existing
+    offers. Supports filtering, sorting, and pagination; default sort is `id` ascending.
+- name: morpho_midnight_get_book
+  description: Returns one active book whose maturity is admitted by the current policy, with market metadata
+    and both sides. If its maturity leaves the policy, the book becomes unavailable immediately, including
+    when existing offers remain. A visible book with no offers returns empty `asks` and `bids`. Each side
+    returns up to `depth` levels, sorted best price first.
+- name: morpho_midnight_get_book_side
+  description: Returns one side of a book as price levels grouped by tick with total units, assets, and
+    price, sorted best price first.
+- name: morpho_midnight_get_book_side_takeable_offers
+  description: Returns up to 1,000 executable offers for one book side, sorted best price first. This
+    endpoint is not paginated and does not accept a limit or cursor.
+- name: morpho_midnight_get_book_quote
+  description: 'Returns a bundle-ready quote for the requested assets or units, plus expected best/worst
+    average prices and maximum executable liquidity.
+
+
+    The endpoint optimizes for successful target-aware bundle execution under contention: `takeable_offers`
+    are best-priced per-offer caps and their total can exceed the requested target, giving a bundle executor
+    fallback liquidity when earlier offers are partially consumed or skipped.
+
+
+    At most `limit` (default and maximum 10,000) best-priced takeable offers are walked and returned;
+    prices and availability always describe exactly the returned window. A request that cannot fill within
+    `limit` offers returns 422.
+
+
+    Use the returned takeable offers with a bundle abstraction that stops at your requested target and
+    applies your max/min asset or unit protections. If you execute takeable offers independently with
+    Midnight.take, do not submit every returned unit blindly: clamp each offer to your remaining target
+    and current takeability, or you may execute more than intended.
+
+
+    If the requested size cannot be fully satisfied at quote time under the selected guard, the endpoint
+    returns 422.'
+- name: morpho_midnight_list_maker_takeable_offers
+  description: Returns one maker's active offers. A fresh offer is withheld until measured, unless indexed
+    ratifier state proves both a blocker and maker intent through the tree signature, signer-authorization
+    history, or root history. Eligible blocked offers return with `units` set to `0`; missing state and
+    unproven offers naming the maker remain hidden.
+- name: morpho_prepare_borrow
+  description: 'Prepare a borrow of the loan token from a Morpho market against collateral already supplied.
+    Amounts are integer strings in base units. If data.status is signature_required, sign each data.signatures[].typed_data
+    and call this tool again with the same selector and body { continuation, signatures: [{ id, signature
+    }] }. A finalized result lists data.calls; send them unchanged and in order from the account only
+    if data.simulation.status is success and before data.expires_at. If data.simulation.status is failed,
+    show data.simulation.failure and do not send the calls. action_proof is the unverified Morpho-Action-Proof
+    response header. Nothing is signed or sent onchain.'
+- name: morpho_prepare_refinance
+  description: 'Prepare moving a borrow position (collateral and debt) from one Morpho market to another
+    market on the same chain. Amounts are integer strings in base units. If data.status is signature_required,
+    sign each data.signatures[].typed_data and call this tool again with the same selector and body {
+    continuation, signatures: [{ id, signature }] }. A finalized result lists data.calls; send them unchanged
+    and in order from the account only if data.simulation.status is success and before data.expires_at.
+    If data.simulation.status is failed, show data.simulation.failure and do not send the calls. action_proof
+    is the unverified Morpho-Action-Proof response header. Nothing is signed or sent onchain.'
+- name: morpho_prepare_supply_collateral_and_borrow
+  description: 'Prepare supplying collateral to a Morpho market and borrowing against it in one step.
+    Amounts are integer strings in base units. If data.status is signature_required, sign each data.signatures[].typed_data
+    and call this tool again with the same selector and body { continuation, signatures: [{ id, signature
+    }] }. A finalized result lists data.calls; send them unchanged and in order from the account only
+    if data.simulation.status is success and before data.expires_at. If data.simulation.status is failed,
+    show data.simulation.failure and do not send the calls. action_proof is the unverified Morpho-Action-Proof
+    response header. Nothing is signed or sent onchain.'
+- name: morpho_prepare_repay
+  description: 'Prepare a repayment of a Morpho market borrow, by assets, by shares or in full. Amounts
+    are integer strings in base units. If data.status is signature_required, sign each data.signatures[].typed_data
+    and call this tool again with the same selector and body { continuation, signatures: [{ id, signature
+    }] }. A finalized result lists data.calls; send them unchanged and in order from the account only
+    if data.simulation.status is success and before data.expires_at. If data.simulation.status is failed,
+    show data.simulation.failure and do not send the calls. action_proof is the unverified Morpho-Action-Proof
+    response header. Nothing is signed or sent onchain.'
+- name: morpho_prepare_repay_and_withdraw_collateral
+  description: 'Prepare repaying a Morpho market borrow and withdrawing collateral in one step. Amounts
+    are integer strings in base units. If data.status is signature_required, sign each data.signatures[].typed_data
+    and call this tool again with the same selector and body { continuation, signatures: [{ id, signature
+    }] }. A finalized result lists data.calls; send them unchanged and in order from the account only
+    if data.simulation.status is success and before data.expires_at. If data.simulation.status is failed,
+    show data.simulation.failure and do not send the calls. action_proof is the unverified Morpho-Action-Proof
+    response header. Nothing is signed or sent onchain.'
+- name: morpho_prepare_supply_collateral
+  description: 'Prepare a deposit of collateral into a Morpho market. Amounts are integer strings in base
+    units. If data.status is signature_required, sign each data.signatures[].typed_data and call this
+    tool again with the same selector and body { continuation, signatures: [{ id, signature }] }. A finalized
+    result lists data.calls; send them unchanged and in order from the account only if data.simulation.status
+    is success and before data.expires_at. If data.simulation.status is failed, show data.simulation.failure
+    and do not send the calls. action_proof is the unverified Morpho-Action-Proof response header. Nothing
+    is signed or sent onchain.'
+- name: morpho_prepare_withdraw_collateral
+  description: 'Prepare a withdrawal of collateral from a Morpho market. Amounts are integer strings in
+    base units. If data.status is signature_required, sign each data.signatures[].typed_data and call
+    this tool again with the same selector and body { continuation, signatures: [{ id, signature }] }.
+    A finalized result lists data.calls; send them unchanged and in order from the account only if data.simulation.status
+    is success and before data.expires_at. If data.simulation.status is failed, show data.simulation.failure
+    and do not send the calls. action_proof is the unverified Morpho-Action-Proof response header. Nothing
+    is signed or sent onchain.'
+- name: morpho_prepare_supply
+  description: 'Prepare a supply (lend) of the loan token to a Morpho market to earn interest. Amounts
+    are integer strings in base units. If data.status is signature_required, sign each data.signatures[].typed_data
+    and call this tool again with the same selector and body { continuation, signatures: [{ id, signature
+    }] }. A finalized result lists data.calls; send them unchanged and in order from the account only
+    if data.simulation.status is success and before data.expires_at. If data.simulation.status is failed,
+    show data.simulation.failure and do not send the calls. action_proof is the unverified Morpho-Action-Proof
+    response header. Nothing is signed or sent onchain.'
+- name: morpho_prepare_blue_withdraw
+  description: 'Prepare a withdrawal of supplied (lent) loan tokens from a Morpho market, by assets, by
+    shares or in full. Amounts are integer strings in base units. If data.status is signature_required,
+    sign each data.signatures[].typed_data and call this tool again with the same selector and body {
+    continuation, signatures: [{ id, signature }] }. A finalized result lists data.calls; send them unchanged
+    and in order from the account only if data.simulation.status is success and before data.expires_at.
+    If data.simulation.status is failed, show data.simulation.failure and do not send the calls. action_proof
+    is the unverified Morpho-Action-Proof response header. Nothing is signed or sent onchain.'
+- name: morpho_prepare_deposit
+  description: 'Prepare a deposit into a Morpho vault, V1 or V2 (the version is detected from the vault).
+    Amounts are integer strings in base units. If data.status is signature_required, sign each data.signatures[].typed_data
+    and call this tool again with the same selector and body { continuation, signatures: [{ id, signature
+    }] }. A finalized result lists data.calls; send them unchanged and in order from the account only
+    if data.simulation.status is success and before data.expires_at. If data.simulation.status is failed,
+    show data.simulation.failure and do not send the calls. action_proof is the unverified Morpho-Action-Proof
+    response header. Nothing is signed or sent onchain.'
+- name: morpho_prepare_withdraw
+  description: 'Prepare a withdrawal of an exact asset amount from a Morpho vault, V1 or V2. To exit the
+    whole position use morpho_prepare_redeem with complete: true. Amounts are integer strings in base
+    units. If data.status is signature_required, sign each data.signatures[].typed_data and call this
+    tool again with the same selector and body { continuation, signatures: [{ id, signature }] }. A finalized
+    result lists data.calls; send them unchanged and in order from the account only if data.simulation.status
+    is success and before data.expires_at. If data.simulation.status is failed, show data.simulation.failure
+    and do not send the calls. action_proof is the unverified Morpho-Action-Proof response header. Nothing
+    is signed or sent onchain.'
+- name: morpho_prepare_redeem
+  description: 'Prepare a redemption of shares from a Morpho vault, V1 or V2: an exact share amount, or
+    complete: true for the whole position. Amounts are integer strings in base units. If data.status is
+    signature_required, sign each data.signatures[].typed_data and call this tool again with the same
+    selector and body { continuation, signatures: [{ id, signature }] }. A finalized result lists data.calls;
+    send them unchanged and in order from the account only if data.simulation.status is success and before
+    data.expires_at. If data.simulation.status is failed, show data.simulation.failure and do not send
+    the calls. action_proof is the unverified Morpho-Action-Proof response header. Nothing is signed or
+    sent onchain.'
+- name: morpho_prepare_force_withdraw
+  description: 'Prepare a forced withdrawal from a Morpho V2 vault that pulls assets out of its adapters
+    when idle liquidity is not enough; a penalty applies (see morpho_vault_v2_get_withdrawal_options).
+    Amounts are integer strings in base units. If data.status is signature_required, sign each data.signatures[].typed_data
+    and call this tool again with the same selector and body { continuation, signatures: [{ id, signature
+    }] }. A finalized result lists data.calls; send them unchanged and in order from the account only
+    if data.simulation.status is success and before data.expires_at. If data.simulation.status is failed,
+    show data.simulation.failure and do not send the calls. action_proof is the unverified Morpho-Action-Proof
+    response header. Nothing is signed or sent onchain.'
+- name: morpho_prepare_force_redeem
+  description: 'Prepare a forced redemption of shares from a Morpho V2 vault that pulls assets out of
+    its adapters when idle liquidity is not enough; a penalty applies (see morpho_vault_v2_get_withdrawal_options).
+    Amounts are integer strings in base units. If data.status is signature_required, sign each data.signatures[].typed_data
+    and call this tool again with the same selector and body { continuation, signatures: [{ id, signature
+    }] }. A finalized result lists data.calls; send them unchanged and in order from the account only
+    if data.simulation.status is success and before data.expires_at. If data.simulation.status is failed,
+    show data.simulation.failure and do not send the calls. action_proof is the unverified Morpho-Action-Proof
+    response header. Nothing is signed or sent onchain.'
+- name: morpho_prepare_redeem_in_kind
+  description: 'Prepare an exit from a Morpho V2 vault where the illiquid part is received as a supply
+    position in the given Morpho market instead of tokens. Amounts are integer strings in base units.
+    If data.status is signature_required, sign each data.signatures[].typed_data and call this tool again
+    with the same selector and body { continuation, signatures: [{ id, signature }] }. A finalized result
+    lists data.calls; send them unchanged and in order from the account only if data.simulation.status
+    is success and before data.expires_at. If data.simulation.status is failed, show data.simulation.failure
+    and do not send the calls. action_proof is the unverified Morpho-Action-Proof response header. Nothing
+    is signed or sent onchain.'
+- name: discover_tools
+  description: 'Browse tools by product area: vaults, Blue variable-rate markets, and Midnight fixed-rate
+    markets. Start with names, then request descriptions or schemas for the area you need.'
 tools_source: live tools/list via initialize handshake, 2026-09-12 (signals/audit_mcp_authorship.py --probe)
 authorship: provider
 descriptions_source: live tools/list (authorship probe or saved capture); filled by backfill-tools-from-authorship.py
