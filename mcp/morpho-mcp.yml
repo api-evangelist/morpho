@@ -75,3 +75,38 @@ tools_source: live tools/list via initialize handshake, 2026-09-12 (signals/audi
 authorship: provider
 descriptions_source: live tools/list (authorship probe or saved capture); filled by backfill-tools-from-authorship.py
   --descriptions, 2026-09-28
+tool_quality:
+  tool_count: 81
+  tokens_total: 192847
+  tokens_per_tool_median: 1210
+  heavy_tools:
+  - name: morpho_prepare_deposit
+    tokens: 11582
+  - name: morpho_prepare_redeem
+    tokens: 10811
+  - name: morpho_prepare_withdraw
+    tokens: 10444
+  - name: morpho_vault_v2_get_allocations
+    tokens: 7716
+  - name: morpho_vault_v2_get_pending_governance_actions
+    tokens: 7636
+  heavy_tool_count: 41
+  params_total: 321
+  params_undescribed: 51
+  params_described_pct: 84.1
+  tools_with_undescribed_params: 27
+  tools_annotated: 0
+  annotated_pct: 0.0
+  state_changing_unhinted: []
+  tools_missing_schema: 0
+  short_descriptions: 0
+  duplicate_descriptions: 0
+  duplicate_names: 0
+  nonportable_names: []
+  output_schema_count: 69
+  token_estimate: chars/3.6 of each compact tool definition
+  source: mcp/morpho-mcp-tools.json
+  measured: '2026-10-20'
+  scored: false
+  note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
+    from Glimind's agent-readiness audit.
