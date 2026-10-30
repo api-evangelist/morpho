@@ -64,39 +64,124 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Morpho is an open DeFi credit network enabling permissionless lending and borrowing of digital assets across Ethereum, Base, Arbitrum, and other supported chains. The Morpho API provides a GraphQL-based interface to access comprehensive onchain and offchain data from the Morpho ecosystem in real time.
+Morpho is an open DeFi credit network enabling permissionless lending and borrowing of digital assets. The Morpho API provides a GraphQL-based interface to access comprehensive onchain and offchain data from the Morpho ecosystem in real time, covering Morpho Markets, Morpho Vaults, user positions, collateral, liquidations, rewards, and historical analytics across Ethereum, Base, Arbitrum, and other supported chains. The API is publicly accessible without authentication and includes a companion TypeScript SDK suite for application integration.
 
-## APIs
+**Areas:** DeFi · Lending · Borrowing · Collateral · Liquidations · Rewards · Markets · Vault · Web3
 
-| API | Description |
-|-----|-------------|
-| [Markets API](https://docs.morpho.org/tools/offchain/api/morpho/) | Query market parameters, supply/borrow state, APYs, oracles, and risk indicators |
-| [Vaults API](https://docs.morpho.org/tools/offchain/api/morpho-vaults/) | Retrieve vault metrics, depositor positions, APY, allocation, and earnings |
-| [Positions API](https://docs.morpho.org/tools/offchain/api/morpho/) | User-level collateral, borrow, and supply positions across markets and vaults |
-| [Liquidations API](https://docs.morpho.org/tools/offchain/api/morpho/) | Historical liquidation events with seized assets, repaid amounts, and bad debt |
-| [Rewards API](https://docs.morpho.org/tools/offchain/api/get-started/) | Supply and borrow reward APRs and campaign data across markets |
-| [Public Allocator API](https://docs.morpho.org/tools/offchain/api/public-allocator/) | Reallocatable liquidity, flow caps, and vault reallocation history |
-| [Historical API](https://docs.morpho.org/tools/offchain/api/get-started/) | Time-series APY, supply/borrow volumes, and asset price data |
+## Morpho on APIs.io
 
-## GraphQL Endpoint
+Everything profiled for Morpho is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/morpho/](https://apis.io/providers/morpho/)** — or go straight to one of the APIs or properties below.
 
-```
-https://api.morpho.org/graphql
-```
+### APIs (7)
 
-No authentication or API key required. Rate limit: 5,000 requests per 5 minutes.
+- [Morpho Markets API](https://apis.io/apis/morpho/markets-api/) — GraphQL queries for Morpho Blue lending markets — retrieve market parameters (loan asset, collateral asset, LLTV, oracle, IRM), real-time state metrics…
+- [Morpho Vaults API](https://apis.io/apis/morpho/vaults-api/) — GraphQL queries for Morpho Vaults (MetaMorpho V1 and V2) — discover vault addresses, symbols, and assets; retrieve total deposits, liquidity, share price,…
+- [Morpho Positions API](https://apis.io/apis/morpho/positions-api/) — GraphQL queries for individual user positions across Morpho Markets and Vaults — query marketPositions for collateral, borrow assets, supply shares, and USD…
+- [Morpho Liquidations API](https://apis.io/apis/morpho/liquidations-api/) — GraphQL queries for liquidation events on Morpho Markets — filter marketTransactions by type Liquidation to retrieve seized collateral amounts, repaid loan…
+- [Morpho Rewards API](https://apis.io/apis/morpho/rewards-api/) — GraphQL queries for Morpho rewards and incentive campaigns — retrieve supply and borrow reward APRs per asset, campaign details, and user-level reward…
+- [Morpho Public Allocator API](https://apis.io/apis/morpho/public-allocator-api/) — GraphQL queries for the Morpho Public Allocator — retrieve allocator addresses and configurations, query total reallocatable liquidity and market available…
+- [Morpho Historical Data API](https://apis.io/apis/morpho/historical-api/) — GraphQL time-series queries for historical market and vault state — query historicalState on markets or vaults with configurable startTimestamp,…
 
-## Resources
+### Published properties
 
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### GraphQL (1)
+
+GraphQL schemas.
+
+- [Morpho GraphQL API](https://apis.io/graphqls/morpho/morpho-graphql/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [morpho](https://apis.io/servers/morpho/morpho/)
+
+#### Security (1)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Morpho Domain Security](https://apis.io/security/morpho/morpho-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Plans](https://apis.io/plans/morpho/plans/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Rate Limits](https://apis.io/rate-limits/morpho/rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Finops](https://apis.io/finops/morpho/finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.morpho.org/)
 - [Documentation](https://docs.morpho.org/)
-- [Developer Portal](https://developers.morpho.org/)
-- [GraphQL Playground](https://api.morpho.org/graphql)
-- [SDK](https://docs.morpho.org/tools/offchain/sdks/get-started/)
-- [GitHub](https://github.com/morpho-org)
-- [Blog](https://morpho.org/blog/)
 - [Support](https://help.morpho.org/)
-- [Discord](https://discord.gg/morpho)
+- [Blog](https://morpho.org/blog/)
 
-## Maintainer
+## API Evangelist rating
 
-**Kin Lane** — kin@apievangelist.com
+**Kin Score 24.3** — emerging · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.3 |
+| Contract quality | 39.4 |
+| Contract governance | 0.0 |
+| Operational transparency | 13.2 |
+| Developer ergonomics | 28.6 |
+| Access clarity | 5.3 |
+
+**Agent readiness 22.2** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 5.9** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/morpho/](https://apis.io/providers/morpho/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Morpho: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/morpho/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
